@@ -107,14 +107,20 @@ CALL refresh_rental_reports();
 
 -- Try 2
 
-CREATE OR REPLACE FUNCTION get_full_name(
-    first_name TEXT, 
-    last_name TEXT
-)
-RETURNS TEXT AS '
+DO $$
 BEGIN
-    RETURN INITCAP(first_name || '' '' || last_name);
-END;
-' LANGUAGE plpgsql;
+    EXECUTE '
+    CREATE OR REPLACE FUNCTION get_full_name(
+        first_name TEXT, 
+        last_name TEXT
+    )
+    RETURNS TEXT AS $func$
+    BEGIN
+        RETURN INITCAP(first_name) || '' '' || INITCAP(last_name);
+    END;
+    $func$ LANGUAGE plpgsql;
+    ';
+END
+$$;
 
 
