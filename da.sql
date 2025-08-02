@@ -33,6 +33,51 @@ CREATE TABLE summary_rentals_report (
 
 -- See section D from earlier message for full query
 -- This is the raw data pull
+✅ Full Query: Raw Data Extraction for Detailed Table
+sql
+Copy
+Edit
+SELECT
+  c.customer_id,
+  get_full_name(c.first_name, c.last_name) AS customer_name,
+  f.title AS film_title,
+  cat.name AS category,
+  r.rental_date,
+  r.return_date,
+  DATE_PART('day', r.return_date - r.rental_date) AS rental_duration,
+  p.amount AS amount_paid
+FROM rental r
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category cat ON fc.category_id = cat.category_id
+JOIN customer c ON r.customer_id = c.customer_id
+JOIN payment p ON p.rental_id = r.rental_id;
+✅ How to Test It
+Open the Query Tool under the dvdrental database.
+
+Paste the query above into the editor.
+
+Click the ⚡ Execute/Run button.
+
+You should see results with columns like:
+
+customer_id
+
+customer_name
+
+film_title
+
+category
+
+rental_date
+
+return_date
+
+rental_duration
+
+amount_paid
+
 
 
 
